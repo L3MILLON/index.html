@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AhorriPet</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:#f3d8c5;
+  min-height:100vh;
+  color:#2d2d2d;
+}
+
+/* LOGIN */
+
+#authScreen{
+  position:fixed;
+  inset:0;
+  background:#f3d8c5;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.auth-card{
+  background:white;
+  width:420px;
+  max-width:90%;
+  padding:35px;
+  border-radius:30px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.auth-card h1{
+  text-align:center;
+  color:#ff7b00;
+  margin-bottom:25px;
+}
+
+.auth-card h2{
+  margin-bottom:20px;
+}
+
+.auth-switch{
+  text-align:center;
+  margin-top:15px;
+}
+
+.auth-switch span{
+  color:#ff7b00;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* NAVBAR */
+
+nav{
+  width:100%;
+  background:white;
+  padding:20px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 5px 20px rgba(0,0,0,0.05);
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.logo{
+  font-size:28px;
+  font-weight:700;
+  color:#ff7b00;
+}
+
+.nav-left{
+  display:flex;
+  align-items:center;
+  gap:30px;
+}
+
+.menu{
+  display:flex;
+  gap:15px;
+}
+
+.menu button{
+  border:none;
+  background:#ededed;
+  padding:12px 18px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:600;
+  transition:0.3s;
+}
+
+.menu button:hover{
+  transform:translateY(-2px);
+}
+
+.active-nav{
+  background:#ff7b00 !important;
+  color:white !important;
+}
+
+.logout{
+  background:#ef4444;
+  color:white;
+  border:none;
+  padding:12px 18px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+/* LAYOUT */
+
+.container{
+  display:grid;
+  grid-template-columns:320px 1fr;
+  gap:25px;
+  padding:30px;
+}
+
+/* CARDS */
+
+.card{
+  background:white;
+  border-radius:30px;
+  padding:25px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* PET */
+
+.pet-card{
+  height:fit-content;
+  position:sticky;
+  top:110px;
+}
+
+.pet{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+
+.cat{
+  font-size:120px;
+  margin:20px 0;
+  animation:float 2s ease-in-out infinite;
+  transition:0.3s;
+}
+
+@keyframes float{
+  0%{transform:translateY(0px);}
+  50%{transform:translateY(-10px);}
+  100%{transform:translateY(0px);}
+}
+
+.shake{
+  animation:shake 0.5s;
+}
+
+@keyframes shake{
+  0%{transform:translateX(0);}
+  25%{transform:translateX(-8px);}
+  50%{transform:translateX(8px);}
+  75%{transform:translateX(-8px);}
+  100%{transform:translateX(0);}
+}
+
+.pet-message{
+  background:#f5f5f5;
+  width:100%;
+  padding:15px;
+  border-radius:20px;
+  line-height:1.5;
+}
+
+/* STATS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.stat{
+  border-radius:25px;
+  padding:20px;
+  color:white;
+}
+
+.stat h2{
+  margin-top:10px;
+  font-size:30px;
+}
+
+.green{background:#22c55e;}
+.red{background:#ef4444;}
+.yellow{background:#eab308;}
+.orange{background:#f97316;}
+
+/* BUTTONS */
+
+.orange-btn{
+  border:none;
+  background:#ff7b00;
+  color:white;
+  padding:12px 18px;
+  border-radius:16px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.filter-buttons{
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+
+.filter-btn{
+  border:none;
+  background:#e5e5e5;
+  padding:10px 16px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+/* FORMS */
+
+input,
+textarea,
+select{
+  width:100%;
+  border:none;
+  background:#f5f5f5;
+  padding:15px;
+  border-radius:18px;
+  margin-bottom:15px;
+  outline:none;
+  font-size:15px;
+}
+
+/* TRANSACTIONS */
+
+.transaction{
+  background:#f5f5f5;
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.amount{
+  font-size:24px;
+  font-weight:700;
+}
+
+/* GOALS */
+
+.goal{
+  background:#f5f5f5;
+  padding:20px;
+  border-radius:25px;
+  margin-bottom:15px;
+}
+
+.progress{
+  width:100%;
+  height:18px;
+  background:#ddd;
+  border-radius:20px;
+  overflow:hidden;
+  margin:15px 0;
+}
+
+.progress-bar{
+  height:100%;
+  background:#ff7b00;
+  width:0%;
+}
+
+.goal-actions{
+  display:flex;
+  gap:10px;
+}
+
+.hidden{
+  display:none;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+  .container{
+    grid-template-columns:1fr;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .pet-card{
+    position:relative;
+    top:0;
+  }
+
+}
+
+@media(max-width:700px){
+
+  nav{
+    flex-direction:column;
+    gap:20px;
+  }
+
+  .nav-left{
+    flex-direction:column;
+  }
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div id="authScreen">
+
+  <div class="auth-card">
+
+    <h1>AhorriPet 🐱</h1>
+
+    <!-- LOGIN -->
+
+    <div id="loginForm">
+
+      <h2>Iniciar Sesión</h2>
+
+      <input type="email" id="loginEmail" placeholder="Correo electrónico">
+
+      <input type="password" id="loginPassword" placeholder="Contraseña">
+
+      <button class="orange-btn" style="width:100%;" onclick="login()">
+        Ingresar
+      </button>
+
+      <div class="auth-switch">
+
+        ¿No tienes cuenta?
+
+        <span onclick="showRegister()">
+          Regístrate
+        </span>
+
+      </div>
+
+    </div>
+
+    <!-- REGISTER -->
+
+    <div id="registerForm" class="hidden">
+
+      <h2>Registrarse</h2>
+
+      <input type="text" id="registerName" placeholder="Nombre">
+
+      <input type="email" id="registerEmail" placeholder="Correo electrónico">
+
+      <input type="password" id="registerPassword" placeholder="Contraseña">
+
+      <button class="orange-btn" style="width:100%;" onclick="register()">
+        Crear Cuenta
+      </button>
+
+      <div class="auth-switch">
+
+        ¿Ya tienes cuenta?
+
+        <span onclick="showLogin()">
+          Inicia Sesión
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- NAVBAR -->
+
+<nav>
+
+  <div class="nav-left">
+
+    <div class="logo">
+      AhorriPet 🐱
+    </div>
+
+    <div class="menu">
+
+      <button class="active-nav" onclick="changeSection('inicio', this)">
+        🏠 Inicio
+      </button>
+
+      <button onclick="changeSection('transacciones', this)">
+        💲 Transacciones
+      </button>
+
+      <button onclick="changeSection('metas', this)">
+        🎯 Metas
+      </button>
+
+    </div>
+
+  </div>
+
+  <button class="logout" onclick="logout()">
+    Salir
+  </button>
+
+</nav>
+
+<div class="container">
+
+  <!-- MASCOTA -->
+
+  <div class="card pet-card">
+
+    <div class="pet">
+
+      <h2>Tu Gatito</h2>
+
+      <div class="cat" id="cat">
+        😺
+      </div>
+
+      <div class="pet-message" id="petMessage">
+        Tu gatito te está esperando 🐱
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- CONTENIDO -->
+
+  <div>
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+      <div class="stat green">
+        <p>Ingresos</p>
+        <h2 id="income">$0</h2>
+      </div>
+
+      <div class="stat red">
+        <p>Gastos</p>
+        <h2 id="expense">$0</h2>
+      </div>
+
+      <div class="stat yellow">
+        <p>Ahorros</p>
+        <h2 id="saving">$0</h2>
+      </div>
+
+      <div class="stat orange">
+        <p>Balance</p>
+        <h2 id="balance">$0</h2>
+      </div>
+
+    </div>
+
+    <!-- INICIO -->
+
+    <div id="inicioSection" class="card">
+
+      <h1>Bienvenido a AhorriPet 🐱</h1>
+
+      <br>
+
+      <p>
+        Administra tus ingresos, gastos y ahorros mientras cuidas tu mascota virtual.
+      </p>
+
+    </div>
+
+    <!-- TRANSACCIONES -->
+
+    <div id="transaccionesSection" class="hidden">
+
+      <div class="card">
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+
+          <h2>Transacciones</h2>
+
+          <button class="orange-btn" onclick="toggleTransactionForm()">
+            + Nueva Transacción
+          </button>
+
+        </div>
+
+        <div id="transactionForm" class="hidden">
+
+          <select id="type">
+            <option>Ingreso</option>
+            <option>Gasto</option>
+            <option>Ahorro</option>
+          </select>
+
+          <input type="number" id="amount" placeholder="Monto">
+
+          <input type="text" id="category" placeholder="Categoría">
+
+          <input type="date" id="date">
+
+          <textarea id="description" placeholder="Descripción"></textarea>
+
+          <button class="orange-btn" onclick="addTransaction()">
+            Guardar
+          </button>
+
+          <br><br>
+
+        </div>
+
+        <div class="filter-buttons">
+
+          <button class="filter-btn" onclick="filterTransactions('Todas', this)">
+            Todas
+          </button>
+
+          <button class="filter-btn" onclick="filterTransactions('Ingreso', this)">
+            Ingresos
+          </button>
+
+          <button class="filter-btn" onclick="filterTransactions('Gasto', this)">
+            Gastos
+          </button>
+
+          <button class="filter-btn" onclick="filterTransactions('Ahorro', this)">
+            Ahorros
+          </button>
+
+        </div>
+
+        <div id="transactionsList"></div>
+
+      </div>
+
+    </div>
+
+    <!-- METAS -->
+
+    <div id="metasSection" class="hidden">
+
+      <div class="card">
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+
+          <h2>Metas de Ahorro</h2>
+
+          <button class="orange-btn" onclick="toggleGoalForm()">
+            + Nueva Meta
+          </button>
+
+        </div>
+
+        <div id="goalForm" class="hidden">
+
+          <input type="text" id="goalName" placeholder="Nombre de la meta">
+
+          <input type="number" id="goalAmount" placeholder="Monto objetivo">
+
+          <button class="orange-btn" onclick="createGoal()">
+            Guardar Meta
+          </button>
+
+        </div>
+
+        <br>
+
+        <div id="goalsList"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+let transactions = [];
+let goals = [];
+let currentFilter = "Todas";
+
+/* NAVIGATION */
+
+function changeSection(section,btn){
+
+  document.getElementById("inicioSection").classList.add("hidden");
+  document.getElementById("transaccionesSection").classList.add("hidden");
+  document.getElementById("metasSection").classList.add("hidden");
+
+  document.querySelectorAll(".menu button").forEach(button=>{
+    button.classList.remove("active-nav");
+  });
+
+  btn.classList.add("active-nav");
+
+  if(section === "inicio"){
+    document.getElementById("inicioSection").classList.remove("hidden");
+  }
+
+  if(section === "transacciones"){
+    document.getElementById("transaccionesSection").classList.remove("hidden");
+  }
+
+  if(section === "metas"){
+    document.getElementById("metasSection").classList.remove("hidden");
+  }
+
+}
+
+/* TRANSACTION FORM */
+
+function toggleTransactionForm(){
+  document.getElementById("transactionForm").classList.toggle("hidden");
+}
+
+/* GOAL FORM */
+
+function toggleGoalForm(){
+  document.getElementById("goalForm").classList.toggle("hidden");
+}
+
+/* ADD TRANSACTION */
+
+function addTransaction(){
+
+  const type = document.getElementById("type").value;
+  const amount = Number(document.getElementById("amount").value);
+  const category = document.getElementById("category").value;
+  const date = document.getElementById("date").value;
+  const description = document.getElementById("description").value;
+
+  if(!amount || !category || !date){
+    alert("Completa todos los campos");
+    return;
+  }
+
+  transactions.push({
+    type,
+    amount,
+    category,
+    date,
+    description
+  });
+
+  updateStats();
+  renderTransactions();
+  updateCat(type);
+
+  document.getElementById("amount").value="";
+  document.getElementById("category").value="";
+  document.getElementById("date").value="";
+  document.getElementById("description").value="";
+
+}
+
+/* STATS */
+
+function updateStats(){
+
+  let income = 0;
+  let expense = 0;
+  let saving = 0;
+
+  transactions.forEach(t=>{
+
+    if(t.type === "Ingreso") income += t.amount;
+    if(t.type === "Gasto") expense += t.amount;
+    if(t.type === "Ahorro") saving += t.amount;
+
+  });
+
+  const balance = income - expense - saving;
+
+  document.getElementById("income").innerText=`$${income}`;
+  document.getElementById("expense").innerText=`$${expense}`;
+  document.getElementById("saving").innerText=`$${saving}`;
+  document.getElementById("balance").innerText=`$${balance}`;
+
+}
+
+/* TRANSACTIONS */
+
+function renderTransactions(){
+
+  const container = document.getElementById("transactionsList");
+
+  container.innerHTML="";
+
+  let filtered = transactions;
+
+  if(currentFilter !== "Todas"){
+    filtered = transactions.filter(t=>t.type===currentFilter);
+  }
+
+  if(filtered.length===0){
+
+    container.innerHTML=`
+      <div class="transaction">
+        No hay transacciones registradas
+      </div>
+    `;
+
+    return;
+
+  }
+
+  filtered.forEach(t=>{
+
+    const div = document.createElement("div");
+
+    div.className="transaction";
+
+    div.innerHTML=`
+
+      <div>
+        <h3>${t.category}</h3>
+        <p>${t.date}</p>
+        <small>${t.description}</small>
+      </div>
+
+      <div class="amount"
+      style="color:
+      ${t.type==="Ingreso" ? "#22c55e" :
+      t.type==="Gasto" ? "#ef4444" :
+      "#eab308"}">
+
+      ${t.type==="Ingreso" ? "+" :
+      t.type==="Gasto" ? "-" :
+      "💰"}
+
+      $${t.amount}
+
+      </div>
+
+    `;
+
+    container.appendChild(div);
+
+  });
+
+}
+
+/* FILTERS */
+
+function filterTransactions(type,btn){
+
+  currentFilter = type;
+
+  document.querySelectorAll(".filter-btn").forEach(button=>{
+
+    button.style.background="#e5e5e5";
+    button.style.color="#000";
+
+  });
+
+  if(type==="Ingreso"){
+    btn.style.background="#22c55e";
+    btn.style.color="white";
+  }
+
+  else if(type==="Gasto"){
+    btn.style.background="#ef4444";
+    btn.style.color="white";
+  }
+
+  else if(type==="Ahorro"){
+    btn.style.background="#eab308";
+    btn.style.color="white";
+  }
+
+  else{
+    btn.style.background="#555";
+    btn.style.color="white";
+  }
+
+  renderTransactions();
+
+}
+
+/* CAT */
+
+function updateCat(type){
+
+  const cat = document.getElementById("cat");
+  const message = document.getElementById("petMessage");
+
+  cat.classList.remove("shake");
+
+  void cat.offsetWidth;
+
+  if(type==="Ingreso"){
+
+    cat.innerText="😸";
+
+    message.innerText=
+    "Tu gatito está emocionado por tus ingresos 🎉";
+
+  }
+
+  else if(type==="Ahorro"){
+
+    cat.innerText="😺";
+
+    message.innerText=
+    "Tu gatito ronronea porque estás ahorrando 💰";
+
+  }
+
+  else{
+
+    cat.innerText="😾";
+
+    message.innerText=
+    "Tu gatito está triste por tantos gastos 😿";
+
+    cat.classList.add("shake");
+
+  }
+
+}
+
+/* CREATE GOAL */
+
+function createGoal(){
+
+  const name = document.getElementById("goalName").value;
+  const amount = Number(document.getElementById("goalAmount").value);
+
+  if(!name || !amount){
+    alert("Completa los campos");
+    return;
+  }
+
+  goals.push({
+    name,
+    amount,
+    saved:0
+  });
+
+  renderGoals();
+
+  document.getElementById("goalName").value="";
+  document.getElementById("goalAmount").value="";
+
+}
+
+/* RENDER GOALS */
+
+function renderGoals(){
+
+  const container = document.getElementById("goalsList");
+
+  container.innerHTML="";
+
+  if(goals.length===0){
+
+    container.innerHTML=`
+      <div class="goal">
+        No hay metas creadas 🎯
+      </div>
+    `;
+
+    return;
+
+  }
+
+  goals.forEach((goal,index)=>{
+
+    const percentage =
+    (goal.saved/goal.amount)*100;
+
+    const div = document.createElement("div");
+
+    div.className="goal";
+
+    div.innerHTML=`
+
+      <h3>${goal.name}</h3>
+
+      <br>
+
+      <p>Meta: $${goal.amount}</p>
+
+      <p>Ahorrado: $${goal.saved}</p>
+
+      <div class="progress">
+
+        <div class="progress-bar"
+        style="width:${percentage}%"></div>
+
+      </div>
+
+      <div class="goal-actions">
+
+        <input type="number"
+        id="goalInput${index}"
+        placeholder="Monto">
+
+        <button class="orange-btn"
+        onclick="saveMoney(${index})">
+
+          💰 Abonar
+
+        </button>
+
+      </div>
+
+    `;
+
+    container.appendChild(div);
+
+  });
+
+}
+
+/* SAVE MONEY */
+
+function saveMoney(index){
+
+  const input =
+  document.getElementById(`goalInput${index}`);
+
+  const amount = Number(input.value);
+
+  if(amount<=0){
+    alert("Ingresa un monto válido");
+    return;
+  }
+
+  goals[index].saved += amount;
+
+  renderGoals();
+
+}
+
+/* AUTH SYSTEM */
+
+let users =
+JSON.parse(localStorage.getItem("users")) || [];
+
+/* SHOW REGISTER */
+
+function showRegister(){
+
+  document.getElementById("loginForm")
+  .classList.add("hidden");
+
+  document.getElementById("registerForm")
+  .classList.remove("hidden");
+
+}
+
+/* SHOW LOGIN */
+
+function showLogin(){
+
+  document.getElementById("registerForm")
+  .classList.add("hidden");
+
+  document.getElementById("loginForm")
+  .classList.remove("hidden");
+
+}
+
+/* REGISTER */
+
+function register(){
+
+  const name =
+  document.getElementById("registerName").value;
+
+  const email =
+  document.getElementById("registerEmail").value;
+
+  const password =
+  document.getElementById("registerPassword").value;
+
+  if(!name || !email || !password){
+
+    alert("Completa todos los campos");
+    return;
+
+  }
+
+  const userExists =
+  users.find(user => user.email === email);
+
+  if(userExists){
+
+    alert("Ese correo ya está registrado");
+    return;
+
+  }
+
+  users.push({
+    name,
+    email,
+    password
+  });
+
+  localStorage.setItem(
+    "users",
+    JSON.stringify(users)
+  );
+
+  alert("Cuenta creada correctamente 🎉");
+
+  showLogin();
+
+}
+
+/* LOGIN */
+
+function login(){
+
+  const email =
+  document.getElementById("loginEmail").value;
+
+  const password =
+  document.getElementById("loginPassword").value;
+
+  const user =
+  users.find(user =>
+    user.email === email &&
+    user.password === password
+  );
+
+  if(!user){
+
+    alert("Correo o contraseña incorrectos");
+    return;
+
+  }
+
+  localStorage.setItem(
+    "loggedUser",
+    JSON.stringify(user)
+  );
+
+  document.getElementById("authScreen")
+  .style.display = "none";
+
+}
+
+/* LOGOUT */
+
+function logout(){
+
+  localStorage.removeItem("loggedUser");
+
+  document.getElementById("authScreen")
+  .style.display = "flex";
+
+}
+
+/* AUTO LOGIN */
+
+window.onload = () => {
+
+  const loggedUser =
+  localStorage.getItem("loggedUser");
+
+  if(loggedUser){
+
+    document.getElementById("authScreen")
+    .style.display = "none";
+
+  }
+
+};
+
+</script>
+
+</body>
+</html>
